@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 관리 · 한배미마을</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav__logo" aria-label="한배미마을 홈">
+          <img src="images/logo.png" alt="한배미마을 HanBaeMi Farm">
+        </a>
+        <button class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__menu">
+          <li class="nav__item"><a href="index.html">홈</a></li>
+          <li class="nav__item"><a href="village.html">마을소개</a></li>
+          <li class="nav__item"><a href="experience.html">체험프로그램</a></li>
+          <li class="nav__item"><a href="stay.html">숙소안내</a></li>
+          <li class="nav__item"><a href="notice.html">공지사항</a></li>
+          <li class="nav__item"><a href="inquiry.html">문의</a></li>
+          <li class="nav__item"><a href="directions.html" class="nav__cta">오시는 길</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 관리자 정보 바 -->
+  <div id="adminLogoutArea" style="display:none;background:var(--bg);border-bottom:1px solid var(--border);padding:8px 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+      <span style="font-size:0.82rem;color:var(--text-muted);" id="adminUserEmail"></span>
+      <button id="btnLogout" class="btn btn--outline btn--sm">로그아웃</button>
+    </div>
+  </div>
+
+  <!-- ===== 페이지 히어로 ===== -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label page-hero__label">관리자</span>
+      <h1 class="page-hero__title">공지사항 관리</h1>
+      <p class="page-hero__desc">공지사항을 작성·수정·삭제할 수 있습니다</p>
+    </div>
+  </div>
+
+  <!-- ===== 권한 없음 ===== -->
+  <section id="accessDenied" class="section" style="display:none;text-align:center;">
+    <div class="container">
+      <div style="font-size:2.5rem;margin-bottom:16px;">🚫</div>
+      <h2 style="font-family:'Noto Serif KR',serif;margin-bottom:12px;">접근 권한이 없습니다</h2>
+      <p style="color:var(--text-muted);margin-bottom:24px;">
+        notice_admins에 등록된 관리자만 이 페이지를 사용할 수 있습니다.
+      </p>
+      <a href="index.html" class="btn btn--outline">홈으로 돌아가기</a>
+    </div>
+  </section>
+
+  <!-- ===== 관리자 콘텐츠 ===== -->
+  <section id="adminContent" class="section" style="display:none;">
+    <div class="container">
+
+      <!-- 메시지 배너 -->
+      <div id="adminMsg" class="admin-msg" style="display:none;margin-bottom:20px;"></div>
+
+      <!-- 상단 액션 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <h2 style="font-family:'Noto Serif KR',serif;font-size:1.25rem;font-weight:700;">공지사항 목록</h2>
+        <div style="display:flex;gap:8px;">
+          <a href="notice.html" class="btn btn--outline btn--sm">← 공지사항 보기</a>
+          <button id="btnNewNotice" class="btn btn--primary btn--sm">+ 새 공지 작성</button>
+        </div>
+      </div>
+
+      <!-- 공지 목록 테이블 -->
+      <div style="overflow-x:auto;margin-bottom:40px;">
+        <table class="notice-table">
+          <thead>
+            <tr>
+              <th style="width:80px;">분류</th>
+              <th>제목</th>
+              <th style="width:110px;">날짜</th>
+              <th style="width:80px;">상태</th>
+              <th style="width:140px;">관리</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody">
+            <tr>
+              <td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">
+                불러오는 중…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 작성/수정 폼 -->
+      <div id="noticeFormWrap" style="display:none;">
+        <div class="reservation-box" style="max-width:680px;margin:0 auto;">
+          <h3 id="formHeading" style="font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:700;margin-bottom:24px;">새 공지 작성</h3>
+
+          <form id="noticeForm" novalidate>
+            <div class="form-grid" style="grid-template-columns:1fr 2fr;">
+
+              <div class="form-group">
+                <label class="form-label" for="fCategory">분류</label>
+                <select id="fCategory" class="form-select">
+                  <option value="공지">공지</option>
+                  <option value="체험">체험</option>
+                  <option value="숙박">숙박</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="fTitle">제목 <span class="required">*</span></label>
+                <input id="fTitle" type="text" class="form-input" placeholder="공지 제목을 입력하세요" required>
+              </div>
+
+              <div class="form-group form-group--full">
+                <label class="form-label" for="fContent">본문</label>
+                <textarea id="fContent" class="form-textarea" style="min-height:140px;" placeholder="공지 내용을 입력하세요 (선택)"></textarea>
+              </div>
+
+              <div class="form-group form-group--full">
+                <label class="form-check">
+                  <input id="fPublished" type="checkbox" checked>
+                  즉시 게시 (체크 해제 시 비공개로 저장)
+                </label>
+              </div>
+
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end;">
+              <button type="button" id="btnCancel" class="btn btn--outline">취소</button>
+              <button type="submit" class="btn btn--primary">저장하기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/notice-admin.js"></script>
+
+</body>
+</html>

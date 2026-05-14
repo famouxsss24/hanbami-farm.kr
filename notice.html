@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 · 한배미마을 주월리</title>
+  <meta name="description" content="한배미마을의 최신 소식과 체험 일정을 확인하세요.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="공지사항 · 한배미마을 주월리">
+  <meta property="og:description" content="한배미마을의 최신 소식과 체험 일정">
+  <meta property="og:image" content="https://hanbami-farm.kr/images/hero-road.png">
+  <meta property="og:url" content="https://hanbami-farm.kr/notice.html">
+  <link rel="canonical" href="https://hanbami-farm.kr/notice.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav__logo" aria-label="한배미마을 홈">
+          <img src="images/logo.png" alt="한배미마을 HanBaeMi Farm">
+        </a>
+        <button class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__menu">
+          <li class="nav__item"><a href="index.html">홈</a></li>
+          <li class="nav__item"><a href="village.html">마을소개</a></li>
+          <li class="nav__item"><a href="experience.html">체험프로그램</a></li>
+          <li class="nav__item"><a href="stay.html">숙소안내</a></li>
+          <li class="nav__item"><a href="notice.html">공지사항</a></li>
+          <li class="nav__item"><a href="inquiry.html">문의</a></li>
+          <li class="nav__item"><a href="directions.html" class="nav__cta">오시는 길</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 페이지 히어로 ===== -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label page-hero__label">공지사항</span>
+      <h1 class="page-hero__title">새소식 · 체험 일정 안내</h1>
+      <p class="page-hero__desc">한배미마을의 최신 소식과 체험 일정을 확인하세요</p>
+    </div>
+  </div>
+
+  <!-- ===== 공지사항 목록 ===== -->
+  <section class="section">
+    <div class="container">
+
+      <!-- 관리자 바 (로그인 시에만 표시) -->
+      <div id="adminBar" class="notice-admin-bar">
+        <span class="notice-admin-bar__email">관리자: <strong id="adminBarEmail"></strong></span>
+        <div class="notice-admin-bar__actions">
+          <a id="btnGotoAdmin" href="notice-admin.html" class="btn btn--primary btn--sm">공지 관리 →</a>
+          <button id="btnAdminLogout" class="btn btn--outline btn--sm">로그아웃</button>
+        </div>
+      </div>
+
+      <!-- 메시지 배너 -->
+      <div id="adminMsg" class="admin-msg" style="display:none;margin-bottom:12px;"></div>
+
+      <!-- 필터 탭 -->
+      <div class="notice-filter-tabs">
+        <button class="notice-filter-tab active" data-filter="all">전체</button>
+        <button class="notice-filter-tab" data-filter="notice">공지</button>
+        <button class="notice-filter-tab" data-filter="exp">체험</button>
+        <button class="notice-filter-tab" data-filter="stay">숙박</button>
+      </div>
+
+      <!-- 공지 테이블 -->
+      <div style="overflow-x:auto;">
+        <table class="notice-table">
+          <thead>
+            <tr>
+              <th class="notice-th--num">번호</th>
+              <th class="notice-th--cat">분류</th>
+              <th>제목</th>
+              <th class="notice-th--date">날짜</th>
+            </tr>
+          </thead>
+          <tbody id="noticeTableBody"></tbody>
+        </table>
+        <div id="noticeEmpty" style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+          <div style="font-size:2.4rem;margin-bottom:12px;">📭</div>
+          <p style="font-size:0.95rem;">아직 등록된 공지사항이 없습니다.</p>
+        </div>
+      </div>
+
+      <!-- 관리자 로그인 링크 (비로그인 시만 표시) -->
+      <div id="noticeAdminLoginWrap" class="notice-admin-login-link">
+        <a href="login.html" class="notice-admin-login-btn">관리자 로그인</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 하단 CTA ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="cta-grid">
+        <div style="background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);display:flex;align-items:center;gap:20px;">
+          <div style="font-size:2.5rem;flex-shrink:0;">🌿</div>
+          <div>
+            <h3 style="font-family:'Noto Serif KR',serif;font-weight:700;margin-bottom:6px;">체험 프로그램 신청</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">사계절 다양한 농촌 체험을 지금 신청해 보세요.</p>
+            <a href="experience.html" class="btn btn--primary btn--sm">바로 신청</a>
+          </div>
+        </div>
+        <div style="background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);display:flex;align-items:center;gap:20px;">
+          <div style="font-size:2.5rem;flex-shrink:0;">🏡</div>
+          <div>
+            <h3 style="font-family:'Noto Serif KR',serif;font-weight:700;margin-bottom:6px;">숙소 문의</h3>
+            <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">전화 또는 이메일로 편하게 문의해 주세요.</p>
+            <a href="stay.html" class="btn btn--outline btn--sm">숙소 보기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 푸터 ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <p class="footer__brand-name">한배미마을</p>
+          <p class="footer__brand-sub">주월리 농촌체험휴양마을</p>
+          <p class="footer__brand-desc">
+            자연 속에서 계절의 변화를 느끼고<br>
+            소중한 추억을 만들어 가는 곳,<br>
+            한배미마을에서 기다리겠습니다.
+          </p>
+        </div>
+        <div>
+          <p class="footer__col-title">빠른 메뉴</p>
+          <ul class="footer__links">
+            <li><a href="village.html">마을소개</a></li>
+            <li><a href="experience.html">체험프로그램</a></li>
+            <li><a href="stay.html">숙소안내</a></li>
+            <li><a href="notice.html">공지사항</a></li>
+            <li><a href="directions.html">오시는 길</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">연락처</p>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">📞</span>
+            <span>010-4223-2089</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">✉️</span>
+            <span>yuwin4387@naver.com</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">📍</span>
+            <span>경기도 파주시 적성면 달빛길 440</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span class="footer-year">2026</span> 한배미마을 · 주월리. All rights reserved.</span>
+        <span>홈페이지 개발/관리자: 유명현 [010-7125-3943] &nbsp;|&nbsp; 농촌체험휴양마을</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/notices.js"></script>
+</body>
+</html>

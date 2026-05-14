@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /login.html
+Disallow: /notice-admin.html
+
+Sitemap: https://hanbami-farm.kr/sitemap.xml
