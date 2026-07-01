@@ -92,6 +92,8 @@
     const lastDate = new Date(y, m + 1, 0).getDate();
     const today    = todayStr();
 
+    const hasRange = !!(_checkIn && _checkOut);
+
     let cells = '';
     for (let i = 0; i < first; i++) cells += '<span class="bk-cal__cell"></span>';
 
@@ -104,14 +106,18 @@
       let cls = 'bk-cal__cell';
       if (isPast)                cls += ' bk-cal__cell--past';
       else if (isBooked)         cls += ' bk-cal__cell--booked';
-      if (iso === _checkIn)      cls += ' bk-cal__cell--checkin';
-      if (iso === _checkOut)     cls += ' bk-cal__cell--checkout';
-      if (_checkIn && _checkOut && iso > _checkIn && iso < _checkOut)
+      if (iso === _checkIn) {
+        cls += ' bk-cal__cell--checkin';
+        if (hasRange) cls += ' bk-cal__cell--band-right';
+      }
+      if (iso === _checkOut) cls += ' bk-cal__cell--checkout bk-cal__cell--band-left';
+      if (hasRange && iso > _checkIn && iso < _checkOut)
         cls += ' bk-cal__cell--range';
 
+      const num = `<span class="bk-cal__num">${d}</span>`;
       cells += disabled
-        ? `<span class="${cls}">${d}</span>`
-        : `<button type="button" class="${cls}" data-date="${iso}">${d}</button>`;
+        ? `<span class="${cls}">${num}</span>`
+        : `<button type="button" class="${cls}" data-date="${iso}">${num}</button>`;
     }
 
     document.getElementById('bkCalGrid').innerHTML = cells;
