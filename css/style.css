@@ -1649,3 +1649,20 @@ button.bk-cal__cell:hover .bk-cal__num { background: var(--bg-alt); }
   padding: 8px 0;
 }
 .bk-done__icon { font-size: 2.6rem; margin-bottom: 10px; }
+
+/* --- 예약 페이지 모바일 --- */
+@media (max-width: 480px) {
+  .bk-cal-wrap { padding: 14px 10px; }
+  .bk-cal__cell { height: 42px; }
+  .bk-cal__num {
+    width: 34px;
+    height: 34px;
+    font-size: 0.85rem;
+  }
+  .bk-summary { position: static; }   /* 모바일에선 sticky 해제 */
+  .bk-room__img { height: 76px; }
+  .bk-room__name { font-size: 0.88rem; }
+  .bk-room__cap { font-size: 0.7rem; }
+  .bk-summary__row { font-size: 0.86rem; }
+  .bk-summary__hint { font-size: 0.78rem; }
+}
