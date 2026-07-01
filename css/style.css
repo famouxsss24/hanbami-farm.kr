@@ -1321,3 +1321,80 @@ ul { list-style: none; }
   .inquiry-table tr[id^="iq-detail-"] td { padding: 0; }
 }
 
+
+/* =============================================
+   숙소 예약현황 배지
+   ============================================= */
+.room-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 10px;
+  min-height: 24px;
+}
+.room-status__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px;
+}
+.room-status__badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.room-status__badge--available { background: rgba(58,95,62,0.12);  color: var(--primary); }
+.room-status__badge--limited   { background: rgba(192,125,58,0.14); color: var(--accent); }
+.room-status__badge--full      { background: rgba(178,58,58,0.12);  color: #b23a3a; }
+.room-status__badge--closed    { background: rgba(110,102,96,0.14); color: var(--text-muted); }
+.room-status__note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* =============================================
+   스크롤 진입 페이드업
+   ============================================= */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1; transform: none; transition: none; }
+}
+
+/* =============================================
+   모바일 하단 고정 전화 버튼
+   ============================================= */
+.mobile-call-btn {
+  display: none;
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 900;
+  padding: 14px 0;
+  border-radius: 40px;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+.mobile-call-btn:active { background: var(--accent-light); }
+@media (max-width: 768px) {
+  .mobile-call-btn { display: block; }
+  body { padding-bottom: 72px; } /* 버튼에 콘텐츠 가림 방지 */
+}

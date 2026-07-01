@@ -77,6 +77,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* --- 스크롤 진입 페이드업 --- */
+  const fadeTargets = document.querySelectorAll(
+    '.stay-card, .facility-card, .exp-card, .program-card, .info-card, .season-card, .notice-table, .reservation-box'
+  );
+  if (fadeTargets.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    fadeTargets.forEach(el => { el.classList.add('fade-up'); io.observe(el); });
+  }
+
+  /* --- 모바일 하단 고정 전화 버튼 (관리자·로그인 페이지 제외) --- */
+  const pageKey = normalize(location.pathname);
+  if (!['notice-admin', 'login'].includes(pageKey) && !document.querySelector('.mobile-call-btn')) {
+    const callBtn = document.createElement('a');
+    callBtn.href = 'tel:010-4223-2089';
+    callBtn.className = 'mobile-call-btn';
+    callBtn.textContent = '📞 전화 문의 010-4223-2089';
+    document.body.appendChild(callBtn);
+  }
+
   /* --- 푸터 연도 자동 갱신 --- */
   document.querySelectorAll('.footer-year').forEach(el => {
     el.textContent = new Date().getFullYear();

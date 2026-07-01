@@ -11,6 +11,7 @@
   <meta property="og:image" content="https://hanbami-farm.kr/images/hero-road.png">
   <meta property="og:url" content="https://hanbami-farm.kr/stay.html">
   <link rel="canonical" href="https://hanbami-farm.kr/stay.html">
+  <link rel="icon" type="image/png" href="images/logo.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -53,7 +54,7 @@
       <div class="stay-grid">
 
         <!-- 보미 (봄) -->
-        <div class="stay-card">
+        <div class="stay-card" data-room="bomi">
           <div class="stay-card__img">
             <div class="photo" style="height:240px;">
               <img src="images/bomi.png" alt="보미 숙소 (수영장 앞 복층)" loading="lazy">
@@ -61,6 +62,7 @@
           </div>
           <div class="stay-card__body">
             <h3 class="stay-card__name">보미 <small style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">(봄)</small></h3>
+            <div class="room-status"></div>
             <p class="stay-card__capacity">최대 6인 · 복층 독채</p>
             <div class="stay-card__features">
               <span class="stay-card__feature">수영장 앞</span>
@@ -77,7 +79,7 @@
         </div>
 
         <!-- 여르미 (여름) -->
-        <div class="stay-card">
+        <div class="stay-card" data-room="yeoreumi">
           <div class="stay-card__img">
             <div class="photo" style="height:240px;">
               <img src="images/yeoreumi.png" alt="여르미 숙소" loading="lazy">
@@ -85,6 +87,7 @@
           </div>
           <div class="stay-card__body">
             <h3 class="stay-card__name">여르미 <small style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">(여름)</small></h3>
+            <div class="room-status"></div>
             <p class="stay-card__capacity">복층 독채 · 다락방 보유</p>
             <div class="stay-card__features">
               <span class="stay-card__feature">수영장 조망</span>
@@ -101,7 +104,7 @@
         </div>
 
         <!-- 가으리 (가을) -->
-        <div class="stay-card">
+        <div class="stay-card" data-room="gaeuri">
           <div class="stay-card__img">
             <div class="photo" style="height:240px;">
               <img src="images/gaeuri.png" alt="가으리 숙소 (대형 단지)" loading="lazy">
@@ -109,6 +112,7 @@
           </div>
           <div class="stay-card__body">
             <h3 class="stay-card__name">가으리 <small style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">(가을)</small></h3>
+            <div class="room-status"></div>
             <p class="stay-card__capacity">최대 8인 · 대형 독채</p>
             <div class="stay-card__features">
               <span class="stay-card__feature">대형 공간</span>
@@ -125,7 +129,7 @@
         </div>
 
         <!-- 겨우리 (겨울) -->
-        <div class="stay-card">
+        <div class="stay-card" data-room="gyeouri">
           <div class="stay-card__img">
             <div class="photo" style="height:240px;">
               <img src="images/gyeouri.png" alt="겨우리 숙소" loading="lazy">
@@ -133,6 +137,7 @@
           </div>
           <div class="stay-card__body">
             <h3 class="stay-card__name">겨우리 <small style="color:var(--text-muted);font-weight:400;font-size:0.85rem;">(겨울)</small></h3>
+            <div class="room-status"></div>
             <p class="stay-card__capacity">최대 6인 · 복층 독채</p>
             <div class="stay-card__features">
               <span class="stay-card__feature">복층 구조</span>
@@ -248,6 +253,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/stay.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

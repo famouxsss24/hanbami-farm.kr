@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>공지사항 관리 · 한배미마을</title>
   <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="images/logo.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -45,7 +46,7 @@
     <div class="container">
       <span class="section-label page-hero__label">관리자</span>
       <h1 class="page-hero__title">공지사항 관리</h1>
-      <p class="page-hero__desc">공지사항을 작성·수정·삭제할 수 있습니다</p>
+      <p class="page-hero__desc">공지사항 작성·수정·삭제와 숙소 예약현황을 관리할 수 있습니다</p>
     </div>
   </div>
 
@@ -97,6 +98,31 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- 숙소 예약현황 관리 -->
+      <div style="margin-bottom:40px;">
+        <h2 style="font-family:'Noto Serif KR',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;">숙소 예약현황 관리</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">
+          상태와 메모는 <a href="stay.html" style="text-decoration:underline;">숙소안내</a> 페이지의 각 숙소 카드에 바로 표시됩니다.
+        </p>
+        <div style="overflow-x:auto;">
+          <table class="notice-table">
+            <thead>
+              <tr>
+                <th style="width:100px;">숙소</th>
+                <th style="width:180px;">상태</th>
+                <th>메모 (예: 7월 주말 마감)</th>
+                <th style="width:90px;">저장</th>
+              </tr>
+            </thead>
+            <tbody id="roomStatusBody">
+              <tr>
+                <td colspan="4" style="text-align:center;padding:32px;color:var(--text-muted);">불러오는 중…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- 작성/수정 폼 -->

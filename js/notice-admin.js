@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('adminContent').style.display = 'block';
 
   await loadNotices();
+  await loadRoomStatus();
 
   document.getElementById('btnNewNotice').addEventListener('click', openNewForm);
   document.getElementById('noticeForm').addEventListener('submit', handleSubmit);
@@ -84,6 +85,74 @@ function noticeCatClass(cat) {
   if (cat === '체험') return 'exp';
   if (cat === '숙박') return 'stay';
   return 'notice';
+}
+
+/* ─── 숙소 예약현황 관리 ─────────────────────────────────────── */
+const ROOM_STATUS_OPTIONS = [
+  { value: 'available', label: '🟢 예약 가능' },
+  { value: 'limited',   label: '🟡 일부 마감 · 문의요망' },
+  { value: 'full',      label: '🔴 예약 마감' },
+  { value: 'closed',    label: '⚫ 운영 중지' },
+];
+
+async function loadRoomStatus() {
+  const tbody = document.getElementById('roomStatusBody');
+  if (!tbody) return;
+
+  const { data, error } = await _supa
+    .from('room_status')
+    .select('*')
+    .order('room_id');
+
+  if (error) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align:center;padding:32px;color:var(--text-muted);">
+          예약현황 테이블이 없습니다. sql/room_status.sql 을 Supabase에서 실행해 주세요.
+        </td>
+      </tr>`;
+    return;
+  }
+
+  /* 사계절 순서로 정렬 */
+  const order = ['bomi', 'yeoreumi', 'gaeuri', 'gyeouri'];
+  const rows = (data || []).slice().sort(
+    (a, b) => order.indexOf(a.room_id) - order.indexOf(b.room_id)
+  );
+
+  tbody.innerHTML = rows.map(r => {
+    const name = String(r.room_name).replace(/[<>]/g, '');
+    const note = String(r.note || '').replace(/"/g, '&quot;').replace(/[<>]/g, '');
+    const options = ROOM_STATUS_OPTIONS.map(o =>
+      `<option value="${o.value}" ${o.value === r.status ? 'selected' : ''}>${o.label}</option>`
+    ).join('');
+    return `
+      <tr data-room="${r.room_id}">
+        <td style="font-weight:600;">${name}</td>
+        <td><select class="form-select rs-status">${options}</select></td>
+        <td><input type="text" class="form-input rs-note" value="${note}" placeholder="비워두면 배지만 표시됩니다" maxlength="40"></td>
+        <td><button class="btn btn--sm btn--primary" onclick="saveRoomStatus('${r.room_id}', this)">저장</button></td>
+      </tr>`;
+  }).join('');
+}
+
+async function saveRoomStatus(roomId, btn) {
+  const row = btn.closest('tr');
+  const payload = {
+    status:     row.querySelector('.rs-status').value,
+    note:       row.querySelector('.rs-note').value.trim(),
+    updated_at: new Date().toISOString(),
+  };
+
+  btn.disabled = true; btn.textContent = '저장 중…';
+  const { error } = await _supa
+    .from('room_status')
+    .update(payload)
+    .eq('room_id', roomId);
+  btn.disabled = false; btn.textContent = '저장';
+
+  if (error) { showMsg('예약현황 저장 실패: ' + error.message, 'error'); return; }
+  showMsg('예약현황이 저장되었습니다.', 'success');
 }
 
 /* ─── 폼 열기/닫기 ──────────────────────────────────────────── */
