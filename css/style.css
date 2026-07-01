@@ -1399,121 +1399,233 @@ ul { list-style: none; }
   body { padding-bottom: 72px; } /* 버튼에 콘텐츠 가림 방지 */
 }
 
+
 /* =============================================
-   숙소 예약 달력 모달
+   예약 페이지 (booking.html)
    ============================================= */
-.bk-modal {
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
-  position: relative;
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
 }
-.bk-modal .modal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 1.6rem;
-  line-height: 1;
-  color: var(--text-muted);
-  cursor: pointer;
+@media (max-width: 900px) {
+  .booking-layout { grid-template-columns: 1fr; }
 }
 
-.bk-cal { margin: 16px 0 8px; }
+.bk-step-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.bk-step-title .bk-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* --- 숙소 선택 카드 --- */
+.bk-rooms {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+@media (max-width: 720px) {
+  .bk-rooms { grid-template-columns: repeat(2, 1fr); }
+}
+.bk-room {
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  transition: all var(--transition);
+}
+.bk-room:hover { border-color: var(--primary-light); box-shadow: var(--shadow); }
+.bk-room.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(58,95,62,0.18);
+}
+.bk-room__img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+}
+.bk-room__body { padding: 10px 12px 12px; }
+.bk-room__name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bk-room.selected .bk-room__name::after {
+  content: '✓';
+  color: var(--primary);
+  font-weight: 900;
+}
+.bk-room__cap {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* --- 달력 --- */
+.bk-cal-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-width: 480px;
+}
+.bk-cal-wrap.disabled { opacity: 0.45; pointer-events: none; }
+
 .bk-cal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
-.bk-cal__month { font-weight: 700; font-size: 1rem; }
+.bk-cal__month { font-weight: 700; font-size: 1.05rem; }
 .bk-cal__nav {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--white);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  line-height: 1;
   cursor: pointer;
   transition: all var(--transition);
 }
 .bk-cal__nav:hover:not(:disabled) { background: var(--bg-alt); }
-.bk-cal__nav:disabled { opacity: 0.35; cursor: default; }
+.bk-cal__nav:disabled { opacity: 0.3; cursor: default; }
 
 .bk-cal__week,
 .bk-cal__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
 }
 .bk-cal__week span {
-  font-size: 0.75rem;
+  text-align: center;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--text-muted);
-  padding: 4px 0;
+  padding: 6px 0;
 }
+.bk-cal__week span:first-child { color: #c0392b; }
+.bk-cal__week span:last-child  { color: #2980b9; }
+
 .bk-cal__cell {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1;
+  height: 46px;
+  margin: 2px 0;
   border: none;
-  border-radius: 8px;
   background: none;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-family: inherit;
   color: var(--text);
 }
-button.bk-cal__cell { cursor: pointer; }
-button.bk-cal__cell:hover { background: var(--bg-alt); }
+button.bk-cal__cell { cursor: pointer; border-radius: 50%; }
+button.bk-cal__cell:hover:not(.bk-cal__cell--checkin):not(.bk-cal__cell--checkout) {
+  background: var(--bg-alt);
+}
 
-.bk-cal__cell--past   { color: var(--border); }
+.bk-cal__cell--past { color: #cfc8ba; }
 .bk-cal__cell--booked {
-  color: #b23a3a;
-  background: rgba(178,58,58,0.08);
+  color: #c8beb0;
   text-decoration: line-through;
-  border-radius: 0;
 }
 .bk-cal__cell--checkin,
 .bk-cal__cell--checkout {
   background: var(--primary) !important;
   color: var(--white) !important;
   font-weight: 700;
+  border-radius: 50%;
+  z-index: 1;
 }
-.bk-cal__cell--range {
-  background: rgba(58,95,62,0.15) !important;
-  border-radius: 0;
-}
+.bk-cal__cell--range { background: rgba(58,95,62,0.13); border-radius: 0; }
 
 .bk-cal__legend {
   display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 10px;
-  font-size: 0.75rem;
+  gap: 18px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
-.bk-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  margin-right: 4px;
-}
+.bk-cal__legend span { display: inline-flex; align-items: center; gap: 6px; }
+.bk-dot { width: 10px; height: 10px; border-radius: 50%; }
 .bk-dot--open   { background: var(--primary); }
-.bk-dot--booked { background: #b23a3a; }
+.bk-dot--booked { background: #c8beb0; }
 
-.bk-selection {
-  font-size: 0.9rem;
-  font-weight: 600;
-  min-height: 1.5em;
-  margin: 8px 0 14px;
+/* --- 우측 요약 카드 --- */
+.bk-summary {
+  position: sticky;
+  top: 90px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
 }
-.bk-actions {
+.bk-summary__title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.bk-summary__row {
   display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.9rem;
+  padding: 6px 0;
 }
-.bk-actions .btn { flex: 1; min-width: 150px; }
+.bk-summary__row dt { color: var(--text-muted); }
+.bk-summary__row dd { font-weight: 600; text-align: right; }
+.bk-summary__hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 12px 0;
+  line-height: 1.6;
+}
+.bk-summary .btn { width: 100%; margin-top: 8px; }
+
+.bk-form-msg {
+  font-size: 0.82rem;
+  color: #b23a3a;
+  min-height: 1.2em;
+  margin: 6px 0;
+}
+.bk-done {
+  text-align: center;
+  padding: 8px 0;
+}
+.bk-done__icon { font-size: 2.6rem; margin-bottom: 10px; }

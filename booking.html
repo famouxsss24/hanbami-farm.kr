@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>예약 · 한배미마을 주월리</title>
+  <meta name="description" content="한배미마을 4동 독채 숙소 예약. 달력에서 날짜를 확인하고 바로 예약하세요.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="예약 · 한배미마을 주월리">
+  <meta property="og:description" content="달력에서 예약 가능 날짜를 확인하고 바로 예약 — 파주 한배미마을">
+  <meta property="og:image" content="https://hanbami-farm.kr/images/hero-road.png">
+  <meta property="og:url" content="https://hanbami-farm.kr/booking.html">
+  <link rel="canonical" href="https://hanbami-farm.kr/booking.html">
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="nav__logo" aria-label="한배미마을 홈">
+          <img src="images/logo.png" alt="한배미마을 HanBaeMi Farm">
+        </a>
+        <button class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__menu">
+          <li class="nav__item"><a href="index.html">홈</a></li>
+          <li class="nav__item"><a href="village.html">마을소개</a></li>
+          <li class="nav__item"><a href="experience.html">체험프로그램</a></li>
+          <li class="nav__item"><a href="stay.html">숙소안내</a></li>
+          <li class="nav__item"><a href="booking.html">예약</a></li>
+          <li class="nav__item"><a href="notice.html">공지사항</a></li>
+          <li class="nav__item"><a href="inquiry.html">문의</a></li>
+          <li class="nav__item"><a href="directions.html" class="nav__cta">오시는 길</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== 페이지 히어로 ===== -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-label page-hero__label">예약</span>
+      <h1 class="page-hero__title">숙소 예약</h1>
+      <p class="page-hero__desc">숙소와 날짜를 선택하면 바로 예약할 수 있습니다</p>
+    </div>
+  </div>
+
+  <!-- ===== 예약 ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="booking-layout">
+
+        <!-- 좌측: 숙소 선택 + 달력 -->
+        <div class="booking-main">
+
+          <h2 class="bk-step-title"><span class="bk-step-num">1</span>숙소를 선택하세요</h2>
+          <div class="bk-rooms" id="bkRooms">
+            <button type="button" class="bk-room" data-room="bomi">
+              <img class="bk-room__img" src="images/bomi.png" alt="보미" loading="lazy">
+              <div class="bk-room__body">
+                <div class="bk-room__name">보미</div>
+                <div class="bk-room__cap">최대 6인 · 복층</div>
+              </div>
+            </button>
+            <button type="button" class="bk-room" data-room="yeoreumi">
+              <img class="bk-room__img" src="images/yeoreumi.png" alt="여르미" loading="lazy">
+              <div class="bk-room__body">
+                <div class="bk-room__name">여르미</div>
+                <div class="bk-room__cap">복층 · 다락방</div>
+              </div>
+            </button>
+            <button type="button" class="bk-room" data-room="gaeuri">
+              <img class="bk-room__img" src="images/gaeuri.png" alt="가으리" loading="lazy">
+              <div class="bk-room__body">
+                <div class="bk-room__name">가으리</div>
+                <div class="bk-room__cap">최대 8인 · 대형</div>
+              </div>
+            </button>
+            <button type="button" class="bk-room" data-room="gyeouri">
+              <img class="bk-room__img" src="images/gyeouri.png" alt="겨우리" loading="lazy">
+              <div class="bk-room__body">
+                <div class="bk-room__name">겨우리</div>
+                <div class="bk-room__cap">최대 6인 · 복층</div>
+              </div>
+            </button>
+          </div>
+
+          <h2 class="bk-step-title"><span class="bk-step-num">2</span>날짜를 선택하세요</h2>
+          <div class="bk-cal-wrap disabled" id="bkCalWrap">
+            <div class="bk-cal__header">
+              <button type="button" id="bkPrevMonth" class="bk-cal__nav" aria-label="이전 달">&lsaquo;</button>
+              <span id="bkMonthLabel" class="bk-cal__month"></span>
+              <button type="button" id="bkNextMonth" class="bk-cal__nav" aria-label="다음 달">&rsaquo;</button>
+            </div>
+            <div class="bk-cal__week">
+              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            </div>
+            <div id="bkCalGrid" class="bk-cal__grid"></div>
+            <div class="bk-cal__legend">
+              <span><i class="bk-dot bk-dot--open"></i>예약 가능</span>
+              <span><i class="bk-dot bk-dot--booked"></i>예약 마감</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 우측: 예약 요약 -->
+        <aside class="bk-summary" id="bkSummary">
+          <h3 class="bk-summary__title">예약 정보</h3>
+
+          <dl id="bkSummaryList">
+            <div class="bk-summary__row"><dt>숙소</dt><dd id="smRoom">—</dd></div>
+            <div class="bk-summary__row"><dt>체크인</dt><dd id="smCheckIn">—</dd></div>
+            <div class="bk-summary__row"><dt>체크아웃</dt><dd id="smCheckOut">—</dd></div>
+            <div class="bk-summary__row"><dt>숙박</dt><dd id="smNights">—</dd></div>
+          </dl>
+
+          <div class="bk-summary__hint">
+            🕒 체크인 <strong>15:00</strong> 부터 · 체크아웃 <strong>11:00</strong> 까지<br>
+            요금 및 자세한 안내는 예약 후 확인 전화에서 안내드립니다.
+          </div>
+
+          <p id="bkGuide" style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:8px 0;">
+            숙소와 날짜를 선택해 주세요
+          </p>
+
+          <!-- 예약 방법 선택 -->
+          <div id="bkActions" style="display:none;">
+            <a id="bkCallBtn" href="tel:010-4223-2089" class="btn btn--outline">📞 전화로 예약 (010-4223-2089)</a>
+            <button type="button" id="bkWebBtn" class="btn btn--primary">🌐 웹에서 바로 예약</button>
+          </div>
+
+          <!-- 웹 예약 폼 -->
+          <form id="bkForm" style="display:none;" novalidate>
+            <div class="form-group" style="margin:14px 0 10px;">
+              <label class="form-label" for="bkName">예약자 이름 <span class="required">*</span></label>
+              <input id="bkName" type="text" class="form-input" placeholder="홍길동" maxlength="20" required>
+            </div>
+            <div class="form-group" style="margin-bottom:10px;">
+              <label class="form-label" for="bkPhone">연락처 <span class="required">*</span></label>
+              <input id="bkPhone" type="tel" class="form-input" placeholder="010-1234-5678" maxlength="15" required>
+            </div>
+            <p id="bkFormMsg" class="bk-form-msg"></p>
+            <button type="submit" id="bkSubmitBtn" class="btn btn--primary">예약 확정하기</button>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px;text-align:center;">
+              예약 확정 후 확인 전화를 드립니다.<br>변경·취소는 ☎ 010-4223-2089
+            </p>
+          </form>
+
+          <!-- 완료 -->
+          <div id="bkDone" class="bk-done" style="display:none;">
+            <div class="bk-done__icon">✅</div>
+            <p id="bkDoneText" style="font-size:0.92rem;line-height:1.7;"></p>
+            <button type="button" id="bkNewBtn" class="btn btn--outline btn--sm" style="margin-top:14px;">새 예약 하기</button>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 푸터 ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <p class="footer__brand-name">한배미마을</p>
+          <p class="footer__brand-sub">주월리 농촌체험휴양마을</p>
+          <p class="footer__brand-desc">
+            자연 속에서 계절의 변화를 느끼고<br>
+            소중한 추억을 만들어 가는 곳,<br>
+            한배미마을에서 기다리겠습니다.
+          </p>
+        </div>
+        <div>
+          <p class="footer__col-title">빠른 메뉴</p>
+          <ul class="footer__links">
+            <li><a href="village.html">마을소개</a></li>
+            <li><a href="experience.html">체험프로그램</a></li>
+            <li><a href="stay.html">숙소안내</a></li>
+            <li><a href="booking.html">예약</a></li>
+            <li><a href="notice.html">공지사항</a></li>
+            <li><a href="inquiry.html">문의</a></li>
+            <li><a href="directions.html">오시는 길</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__col-title">연락처</p>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">📞</span>
+            <span>010-4223-2089</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">✉️</span>
+            <span>yuwin4387@naver.com</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon">📍</span>
+            <span>경기도 파주시 적성면 달빛길 440</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span class="footer-year">2026</span> 한배미마을 · 주월리. All rights reserved.</span>
+        <span>홈페이지 개발/관리자: 유명현 [010-7125-3943] &nbsp;|&nbsp; 농촌체험휴양마을</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
