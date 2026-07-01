@@ -125,6 +125,72 @@
         </div>
       </div>
 
+      <!-- 숙소 예약 관리 -->
+      <div style="margin-bottom:40px;">
+        <h2 style="font-family:'Noto Serif KR',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;">숙소 예약 관리</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">
+          웹 예약은 자동으로 등록됩니다. 전화로 받은 예약은 아래에서 직접 등록하면 달력에서 해당 날짜가 마감 처리됩니다.
+        </p>
+
+        <!-- 전화예약 등록 폼 -->
+        <div class="reservation-box" style="margin-bottom:24px;">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;">📞 전화예약 등록</h3>
+          <form id="phoneBookingForm" novalidate>
+            <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+              <div class="form-group">
+                <label class="form-label" for="pbRoom">숙소</label>
+                <select id="pbRoom" class="form-select">
+                  <option value="bomi">보미</option>
+                  <option value="yeoreumi">여르미</option>
+                  <option value="gaeuri">가으리</option>
+                  <option value="gyeouri">겨우리</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pbStart">체크인 <span class="required">*</span></label>
+                <input id="pbStart" type="date" class="form-input form-input--date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pbEnd">체크아웃 <span class="required">*</span></label>
+                <input id="pbEnd" type="date" class="form-input form-input--date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pbName">예약자명</label>
+                <input id="pbName" type="text" class="form-input" placeholder="홍길동" maxlength="20">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="pbPhone">연락처</label>
+                <input id="pbPhone" type="tel" class="form-input" placeholder="010-1234-5678" maxlength="15">
+              </div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px;">
+              <button type="submit" class="btn btn--primary btn--sm">등록 (날짜 마감)</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 예약 목록 -->
+        <div style="overflow-x:auto;">
+          <table class="notice-table">
+            <thead>
+              <tr>
+                <th style="width:80px;">숙소</th>
+                <th style="width:170px;">일정</th>
+                <th>예약자</th>
+                <th style="width:130px;">연락처</th>
+                <th style="width:70px;">경로</th>
+                <th style="width:90px;">관리</th>
+              </tr>
+            </thead>
+            <tbody id="bookingTableBody">
+              <tr>
+                <td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted);">불러오는 중…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- 작성/수정 폼 -->
       <div id="noticeFormWrap" style="display:none;">
         <div class="reservation-box" style="max-width:680px;margin:0 auto;">

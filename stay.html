@@ -75,6 +75,7 @@
               여름철 가족 단위 방문객에게 인기 있는 공간으로,
               바비큐를 즐기며 자연 속에서 온전한 휴식을 누릴 수 있습니다.
             </p>
+            <button type="button" class="btn btn--primary btn--sm btn-book">📅 예약현황 보기 · 예약하기</button>
           </div>
         </div>
 
@@ -100,6 +101,7 @@
               1층은 거실과 주방, 침실, 2층은 다락방으로 구성되어 있으며,
               다락방에서 바라보는 풍경이 편안함을 줍니다.
             </p>
+            <button type="button" class="btn btn--primary btn--sm btn-book">📅 예약현황 보기 · 예약하기</button>
           </div>
         </div>
 
@@ -125,6 +127,7 @@
               대가족이나 단체 여행에 최적화된 공간으로,
               넓은 거실과 마당에서 다 함께 즐길 수 있는 시간을 만들어드립니다.
             </p>
+            <button type="button" class="btn btn--primary btn--sm btn-book">📅 예약현황 보기 · 예약하기</button>
           </div>
         </div>
 
@@ -149,6 +152,7 @@
               바베큐장이 가까이 있어 사용이 편하며, 조용하고 아늑한 독채입니다.
               커플이나 가족의 조용한 휴식에 적합합니다.
             </p>
+            <button type="button" class="btn btn--primary btn--sm btn-book">📅 예약현황 보기 · 예약하기</button>
           </div>
         </div>
 
@@ -253,9 +257,65 @@
     </div>
   </footer>
 
+  <!-- ===== 예약 달력 모달 ===== -->
+  <div id="bookingModal" class="modal-overlay">
+    <div class="modal-box bk-modal">
+      <button type="button" class="modal-close" aria-label="닫기">&times;</button>
+      <h3 class="modal-title"><span id="bkRoomName"></span> 예약</h3>
+
+      <div class="bk-cal">
+        <div class="bk-cal__header">
+          <button type="button" id="bkPrevMonth" class="bk-cal__nav" aria-label="이전 달">&lsaquo;</button>
+          <span id="bkMonthLabel" class="bk-cal__month"></span>
+          <button type="button" id="bkNextMonth" class="bk-cal__nav" aria-label="다음 달">&rsaquo;</button>
+        </div>
+        <div class="bk-cal__week">
+          <span style="color:#c0392b;">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span style="color:#2980b9;">토</span>
+        </div>
+        <div id="bkCalGrid" class="bk-cal__grid"></div>
+        <div class="bk-cal__legend">
+          <span><i class="bk-dot bk-dot--open"></i> 예약 가능</span>
+          <span><i class="bk-dot bk-dot--booked"></i> 예약 마감</span>
+        </div>
+      </div>
+
+      <p id="bkSelectionInfo" class="bk-selection"></p>
+
+      <!-- 전화 / 웹 선택 -->
+      <div id="bkActions" class="bk-actions" style="display:none;">
+        <button type="button" id="bkCallBtn" class="btn btn--outline">📞 전화로 예약</button>
+        <button type="button" id="bkWebBtn" class="btn btn--primary">🌐 웹에서 바로 예약</button>
+      </div>
+
+      <!-- 웹 예약 폼 -->
+      <form id="bkForm" style="display:none;" novalidate>
+        <div class="form-group" style="margin-bottom:12px;text-align:left;">
+          <label class="form-label" for="bkName">이름 <span class="required">*</span></label>
+          <input id="bkName" type="text" class="form-input" placeholder="홍길동" maxlength="20" required>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;text-align:left;">
+          <label class="form-label" for="bkPhone">연락처 <span class="required">*</span></label>
+          <input id="bkPhone" type="tel" class="form-input" placeholder="010-1234-5678" maxlength="15" required>
+        </div>
+        <p id="bkFormMsg" style="font-size:0.82rem;color:#b23a3a;min-height:1.2em;margin-bottom:8px;"></p>
+        <button type="submit" id="bkSubmitBtn" class="btn btn--primary" style="width:100%;">예약 확정하기</button>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px;">
+          예약 후 확인 전화를 드립니다. 변경·취소는 ☎ 010-4223-2089
+        </p>
+      </form>
+
+      <!-- 완료 -->
+      <div id="bkDone" style="display:none;">
+        <div class="modal-icon">✅</div>
+        <p id="bkDoneText" class="modal-desc"></p>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/auth.js"></script>
   <script src="js/stay.js"></script>
+  <script src="js/booking.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

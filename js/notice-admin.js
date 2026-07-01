@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await loadNotices();
   await loadRoomStatus();
+  await loadBookings();
 
+  document.getElementById('phoneBookingForm')
+    ?.addEventListener('submit', handlePhoneBooking);
   document.getElementById('btnNewNotice').addEventListener('click', openNewForm);
   document.getElementById('noticeForm').addEventListener('submit', handleSubmit);
   document.getElementById('btnCancel').addEventListener('click', closeForm);
@@ -153,6 +156,104 @@ async function saveRoomStatus(roomId, btn) {
 
   if (error) { showMsg('예약현황 저장 실패: ' + error.message, 'error'); return; }
   showMsg('예약현황이 저장되었습니다.', 'success');
+}
+
+/* ─── 숙소 예약 관리 ─────────────────────────────────────────── */
+const ROOM_NAMES = { bomi: '보미', yeoreumi: '여르미', gaeuri: '가으리', gyeouri: '겨우리' };
+
+async function loadBookings() {
+  const tbody = document.getElementById('bookingTableBody');
+  if (!tbody) return;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await _supa
+    .from('room_bookings')
+    .select('*')
+    .eq('status', 'confirmed')
+    .gte('end_date', today)
+    .order('start_date');
+
+  if (error) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted);">
+          예약 테이블이 없습니다. sql/room_bookings.sql 을 Supabase에서 실행해 주세요.
+        </td>
+      </tr>`;
+    return;
+  }
+
+  if (!data.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted);">
+          예정된 예약이 없습니다.
+        </td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(b => {
+    const room  = ROOM_NAMES[b.room_id] || b.room_id;
+    const name  = String(b.guest_name  || '—').replace(/[<>]/g, '');
+    const phone = String(b.guest_phone || '—').replace(/[<>]/g, '');
+    const src   = b.source === 'web'
+      ? '<span style="color:var(--primary);font-weight:600;">웹</span>'
+      : '<span style="color:var(--accent);font-weight:600;">전화</span>';
+    const nights = (new Date(b.end_date) - new Date(b.start_date)) / 86400000;
+    return `
+      <tr>
+        <td style="font-weight:600;">${room}</td>
+        <td>${b.start_date} ~ ${b.end_date} (${nights}박)</td>
+        <td>${name}</td>
+        <td>${phone}</td>
+        <td>${src}</td>
+        <td><button class="btn btn--sm btn--danger" onclick="cancelBooking('${b.id}')">취소</button></td>
+      </tr>`;
+  }).join('');
+}
+
+async function handlePhoneBooking(e) {
+  e.preventDefault();
+  const payload = {
+    room_id:     document.getElementById('pbRoom').value,
+    start_date:  document.getElementById('pbStart').value,
+    end_date:    document.getElementById('pbEnd').value,
+    guest_name:  document.getElementById('pbName').value.trim(),
+    guest_phone: document.getElementById('pbPhone').value.trim(),
+    source:      'admin',
+  };
+
+  if (!payload.start_date || !payload.end_date) {
+    showMsg('체크인·체크아웃 날짜를 선택해 주세요.', 'error'); return;
+  }
+  if (payload.end_date <= payload.start_date) {
+    showMsg('체크아웃 날짜는 체크인보다 뒤여야 합니다.', 'error'); return;
+  }
+
+  const { error } = await _supa.from('room_bookings').insert([payload]);
+
+  if (error) {
+    showMsg(error.code === '23P01'
+      ? '해당 기간에 이미 예약이 있습니다. 아래 목록을 확인해 주세요.'
+      : '등록 실패: ' + error.message, 'error');
+    return;
+  }
+
+  showMsg('전화예약이 등록되었습니다. 달력에서 마감 처리됩니다.', 'success');
+  document.getElementById('phoneBookingForm').reset();
+  await loadBookings();
+}
+
+async function cancelBooking(id) {
+  if (!confirm('이 예약을 취소하시겠습니까? 달력에서 다시 예약 가능해집니다.')) return;
+  const { error } = await _supa
+    .from('room_bookings')
+    .update({ status: 'cancelled' })
+    .eq('id', id);
+  if (error) { showMsg('취소 실패: ' + error.message, 'error'); return; }
+  showMsg('예약이 취소되었습니다.', 'success');
+  await loadBookings();
 }
 
 /* ─── 폼 열기/닫기 ──────────────────────────────────────────── */

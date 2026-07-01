@@ -1398,3 +1398,122 @@ ul { list-style: none; }
   .mobile-call-btn { display: block; }
   body { padding-bottom: 72px; } /* 버튼에 콘텐츠 가림 방지 */
 }
+
+/* =============================================
+   숙소 예약 달력 모달
+   ============================================= */
+.bk-modal {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+.bk-modal .modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.bk-cal { margin: 16px 0 8px; }
+.bk-cal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.bk-cal__month { font-weight: 700; font-size: 1rem; }
+.bk-cal__nav {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.bk-cal__nav:hover:not(:disabled) { background: var(--bg-alt); }
+.bk-cal__nav:disabled { opacity: 0.35; cursor: default; }
+
+.bk-cal__week,
+.bk-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.bk-cal__week span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+.bk-cal__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--text);
+}
+button.bk-cal__cell { cursor: pointer; }
+button.bk-cal__cell:hover { background: var(--bg-alt); }
+
+.bk-cal__cell--past   { color: var(--border); }
+.bk-cal__cell--booked {
+  color: #b23a3a;
+  background: rgba(178,58,58,0.08);
+  text-decoration: line-through;
+  border-radius: 0;
+}
+.bk-cal__cell--checkin,
+.bk-cal__cell--checkout {
+  background: var(--primary) !important;
+  color: var(--white) !important;
+  font-weight: 700;
+}
+.bk-cal__cell--range {
+  background: rgba(58,95,62,0.15) !important;
+  border-radius: 0;
+}
+
+.bk-cal__legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.bk-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.bk-dot--open   { background: var(--primary); }
+.bk-dot--booked { background: #b23a3a; }
+
+.bk-selection {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 1.5em;
+  margin: 8px 0 14px;
+}
+.bk-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.bk-actions .btn { flex: 1; min-width: 150px; }
